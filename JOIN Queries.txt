@@ -1,0 +1,35 @@
+SELECT vend_name, prod_name, prod_price
+FROM Vendors INNER JOIN Products
+ON Vendors.vend_id=Products.vend_id;
+
+SELECT vend_name, prod_name, prod_price, quantity
+FROM OrderItems, Vendors, Products
+WHERE Vendors.vend_id=Products.vend_id AND OrderItems.prod_id=Products.prod_id
+AND order_num=20007;
+
+SELECT cust_id, cust_name, cust_contact
+FROM Customers 
+WHERE Cust_name =(SELECT cust_name
+				  FROM Customers
+				  WHERE Cust_contact='Jim Jones');
+
+SELECT c1.cust_id, c1.cust_name, c1.cust_contact
+FROM Customers AS c1, Customers AS c2
+WHERE c1.cust_name=c2.cust_name
+AND c2.cust_contact='Jim Jones';
+
+SELECT C.*, O.order_num, O.order_date, OI.prod_id, OI.quantity, OI.item_price
+FROM Customers AS C, Orders AS O, OrderItems AS OI
+WHERE C.cust_id=O.cust_id
+AND OI.order_num=O.order_num
+AND prod_id='RGAN01';
+
+--Inner join:
+SELECT Customers.cust_id, Orders.order_num-- returns cust-id's that had an order
+FROM Customers INNER JOIN Orders
+ON Customers.cust_id=Orders.cust_id;
+
+--Outer Join:
+SELECT Customers.cust_id, Orders.order_num-- returns both custid's with or without orders
+FROM Customers LEFT OUTER JOIN Orders
+ON Customers.cust_id=Orders.cust_id;
